@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1076609413369",
+    "project_id": "kadeball-wannago-4a7e2",
+    "storage_bucket": "kadeball-wannago-4a7e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076609413369:android:a7897699d12272a9b43228",
+        "android_client_info": {
+          "package_name": "com.bignerdranch.android.wannago"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1076609413369-vp9a65afrls5tcat55rrjqdreddahi6u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1znm1tpDCTQnerD2a8lzv6a07Eqe4edw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1076609413369-vp9a65afrls5tcat55rrjqdreddahi6u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
