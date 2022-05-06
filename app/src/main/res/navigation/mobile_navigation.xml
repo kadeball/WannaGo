@@ -16,6 +16,11 @@
         android:name="com.bignerdranch.android.wannago.ui.Location.LocationFragment"
         android:label="@string/menu_location"
         tools:layout="@layout/location_fragment" />
+    <fragment
+        android:id="@+id/nav_location2"
+        android:name="com.bignerdranch.android.wannago.ui.Location2.LocationFragment2"
+        android:label="@string/menu_location2"
+        tools:layout="@layout/location_fragment2" />
 
     <fragment
         android:id="@+id/nav_slideshow"

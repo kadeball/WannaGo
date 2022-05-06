@@ -1,4 +1,4 @@
-package com.bignerdranch.android.wannago.ui.Location
+package com.bignerdranch.android.wannago.ui.Location2
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.wannago.Location
 import com.bignerdranch.android.wannago.PermissionUtils
-import com.bignerdranch.android.wannago.PermissionUtils.requestAccessFineLocationPermission
 import com.bignerdranch.android.wannago.R
 import com.bignerdranch.android.wannago.SwipeToDeleteCallback
 import com.google.android.gms.location.*
@@ -31,14 +30,14 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-class LocationFragment : Fragment(), GoogleMap.OnMapClickListener, OnMapReadyCallback {
+class LocationFragment2 : Fragment(), GoogleMap.OnMapClickListener, OnMapReadyCallback {
 
     companion object {
-        fun newInstance() = LocationFragment()
+        fun newInstance() = LocationFragment2()
         private const val LOCATION_PERMISSION_REQUEST_CODE = 999
     }
 
-    private lateinit var viewModel: LocationViewModel
+    private lateinit var viewModel: LocationFragment2ViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +61,7 @@ class LocationFragment : Fragment(), GoogleMap.OnMapClickListener, OnMapReadyCal
     }
 
     private lateinit var locrecyclerview: RecyclerView
-    private val locationViewModel: LocationViewModel by viewModels()
+    private val locationViewModel: LocationFragment2ViewModel by viewModels()
     private lateinit var mapView: MapView
     private var googleMap: GoogleMap? = null
     private lateinit var locationCallback: LocationCallback
@@ -73,8 +72,8 @@ class LocationFragment : Fragment(), GoogleMap.OnMapClickListener, OnMapReadyCal
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.location_fragment, container, false)
-        locrecyclerview = view.findViewById(R.id.fragment_location) as RecyclerView
+        val view = inflater.inflate(R.layout.location_fragment2, container, false)
+        locrecyclerview = view.findViewById(R.id.fragment_location2) as RecyclerView
         locrecyclerview.layoutManager = LinearLayoutManager(context)
         locrecyclerview.addItemDecoration(
             DividerItemDecoration(
@@ -82,8 +81,8 @@ class LocationFragment : Fragment(), GoogleMap.OnMapClickListener, OnMapReadyCal
                 DividerItemDecoration.VERTICAL
             )
         )
-        locationViewModel.listenToCollection("locations")
-        mapView = view.findViewById(R.id.locMapView)
+        locationViewModel.listenToCollection("locations2")
+        mapView = view.findViewById(R.id.locMapView2)
         mapView.onCreate(savedInstanceState)
         mapView.onResume()
         mapView.getMapAsync(this)
@@ -177,7 +176,7 @@ class LocationFragment : Fragment(), GoogleMap.OnMapClickListener, OnMapReadyCal
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(LocationFragment2ViewModel::class.java)
         locationViewModel.listOfLocations.observe(viewLifecycleOwner, {
             updateUI()
         })
@@ -209,7 +208,10 @@ class LocationFragment : Fragment(), GoogleMap.OnMapClickListener, OnMapReadyCal
         }
         // IF NO PERMISSIONS, ASK FOR PERMISSION
         else {
-            requestAccessFineLocationPermission(this, LOCATION_PERMISSION_REQUEST_CODE)
+            PermissionUtils.requestAccessFineLocationPermission(
+                this,
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
         }
         if (ActivityCompat.checkSelfPermission(
                 context!!,
@@ -236,7 +238,7 @@ class LocationFragment : Fragment(), GoogleMap.OnMapClickListener, OnMapReadyCal
             googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 
         }
-        }
+    }
 
 
     private fun updateUI() {
@@ -244,7 +246,7 @@ class LocationFragment : Fragment(), GoogleMap.OnMapClickListener, OnMapReadyCal
     }
 
     private inner class LocationViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private var locationItemTextView: TextView = view.findViewById(R.id.location)
+        private var locationItemTextView: TextView = view.findViewById(R.id.location2)
         fun bind(location: Location) {
             locationItemTextView.text =
                 location.lat.toString() + ", " + location.long.toString()
@@ -258,7 +260,7 @@ class LocationFragment : Fragment(), GoogleMap.OnMapClickListener, OnMapReadyCal
         RecyclerView.Adapter<LocationViewHolder>
             () {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationViewHolder {
-            val recyclerViewItem = LayoutInflater.from(parent.context).inflate(R.layout.list_item_location, parent, false)
+            val recyclerViewItem = LayoutInflater.from(parent.context).inflate(R.layout.list_item_location2, parent, false)
             return LocationViewHolder(recyclerViewItem)
         }
 
@@ -271,7 +273,7 @@ class LocationFragment : Fragment(), GoogleMap.OnMapClickListener, OnMapReadyCal
         }
 
         fun removeAt(position: Int) {
-            locationViewModel.deletefromFirestore(datatoAdapt[position].documentId, "locations")
+            locationViewModel.deletefromFirestore(datatoAdapt[position].documentId, "locations2")
             datatoAdapt.removeAt(position)
             notifyItemRemoved(position)
         }
@@ -279,7 +281,7 @@ class LocationFragment : Fragment(), GoogleMap.OnMapClickListener, OnMapReadyCal
     }
 
     override fun onMapClick(point: LatLng) {
-        locationViewModel.writeToFirestore(point.latitude, point.longitude, "locations")
+        locationViewModel.writeToFirestore(point.latitude, point.longitude, "locations2")
         googleMap?.addMarker(MarkerOptions().position(point))
 
         val cameraPosition = CameraPosition.Builder().target(point).zoom(14f).tilt(45f).build()
